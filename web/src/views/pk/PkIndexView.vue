@@ -1,9 +1,14 @@
 <template>
-  <div>对战</div>
+  <ContentField> 对战 </ContentField>
 </template>
 
 <script>
-export default {};
+import ContentField from "@/components/ContentField";
+export default {
+  components: {
+    ContentField,
+  },
+};
 </script>
 
 <style>

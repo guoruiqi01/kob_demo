@@ -1,9 +1,14 @@
 <template>
-  <div>排行榜</div>
+  <ContentField> 排行榜 </ContentField>
 </template>
 
 <script>
-export default {};
+import ContentField from "@/components/ContentField";
+export default {
+  components: {
+    ContentField,
+  },
+};
 </script>
 
 <style>

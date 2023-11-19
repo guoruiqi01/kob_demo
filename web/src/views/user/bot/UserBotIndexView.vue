@@ -1,9 +1,14 @@
 <template>
-  <div>我的Bot</div>
+  <ContentField> 我的Bot </ContentField>
 </template>
 
 <script>
-export default {};
+import ContentField from "@/components/ContentField";
+export default {
+  components: {
+    ContentField,
+  },
+};
 </script>
 
 <style>

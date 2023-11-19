@@ -1,9 +1,14 @@
 <template>
-  <div>对局记录</div>
+  <ContentField> 对局记录 </ContentField>
 </template>
 
 <script>
-export default {};
+import ContentField from "@/components/ContentField";
+export default {
+  components: {
+    ContentField,
+  },
+};
 </script>
 
 <style>
