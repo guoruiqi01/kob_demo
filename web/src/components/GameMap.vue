@@ -6,7 +6,7 @@
 
 <script>
 // 调试那么久竟然是import GameMap 和 import { GameMap } 的区别
-import { GameMap } from "../assets/scripts/GameMap";
+import { GameMapObject } from "../assets/scripts/GameMapObject";
 import { ref, onMounted } from "vue";
 
 export default {
@@ -15,7 +15,7 @@ export default {
     let canvas = ref(null);
 
     onMounted(() => {
-      new GameMap(canvas.value.getContext("2d"), parent.value);
+      new GameMapObject(canvas.value.getContext("2d"), parent.value);
     });
 
     return {
@@ -30,5 +30,8 @@ export default {
 div.gamemap {
   width: 100%;
   height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
