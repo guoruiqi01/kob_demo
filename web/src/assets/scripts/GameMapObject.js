@@ -8,7 +8,7 @@ export class GameMapObject extends AcGameObject {
     this.parent = parent;
     this.L = 0;
     this.rows = 13;
-    this.cols = 13;
+    this.cols = 14;
     this.inner_walls = 20;
     this.walls = [];
   }
@@ -55,9 +55,9 @@ export class GameMapObject extends AcGameObject {
       for (let j = 0; j < 1000; j ++) {
         let r = parseInt(Math.random() * this.rows);
         let c = parseInt(Math.random() * this.cols);
-        if (g[r][c] || g[c][r]) continue;
+        if (g[r][c] || g[this.rows - 1 - r][this.cols - 1 - c]) continue;
         if (r == this.rows - 2 && c == 1 || r == 1 && c == this.cols - 2) continue
-        g[r][c] = g[c][r] = true;
+        g[r][c] = g[this.rows - 1 - r][this.cols - 1 - c] = true;
         break;
       }
     }
@@ -71,7 +71,6 @@ export class GameMapObject extends AcGameObject {
         if (g[r][c]) this.walls.push(new Wall(r, c, this))
       }
     }
-
     return true;
   }
 
@@ -79,11 +78,15 @@ export class GameMapObject extends AcGameObject {
     for (let i = 0; i < 10; i ++) if (this.create_walls()) break
   }
 
+
   update_size() {
-    this.L = Math.min(this.parent.clientWidth / this.rows, this.parent.clientHeight / this.cols)
+    // 这里的 L 是浮点数，而画图时用的是整像素，因此会造成画墙时有墙缝
+    // 这里觉得有没有缝影响不大，所以就不改了
+    this.L = Math.min(this.parent.clientWidth / this.cols, this.parent.clientHeight / this.rows);
     this.ctx.canvas.width = this.L * this.cols;
     this.ctx.canvas.height = this.L * this.rows;
   }
+
 
   update() {
     this.update_size();
