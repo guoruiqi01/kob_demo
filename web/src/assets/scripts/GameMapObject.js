@@ -1,4 +1,5 @@
 import { AcGameObject } from "./AcGameObject";
+import { Snake } from "./Snake";
 import { Wall } from "./Wall";
 
 export class GameMapObject extends AcGameObject {
@@ -11,6 +12,11 @@ export class GameMapObject extends AcGameObject {
     this.cols = 14;
     this.inner_walls = 20;
     this.walls = [];
+
+    this.snakes = [
+      new Snake({id: 0, color: "red", r: this.rows - 2, c: 1}, this),
+      new Snake({id: 1, color: "blue", r: 1, c: this.cols - 2}, this)
+    ]
   }
 
   check_connectivity(g, sx, sy, tx, ty) {
