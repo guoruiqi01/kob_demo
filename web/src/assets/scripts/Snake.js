@@ -8,15 +8,21 @@ export class Snake extends AcGameObject {
     this.color = info.color;
     this.gamemap = gamemap;
 
-    this.cells = [new Cell(info.r, info.c)];
+    this.cells = [new Cell(info.r, info.c)]; // cells[0] 存放蛇的头
+    this.speed = 1; // 蛇每秒钟走的格子数
   }
 
   start() {
 
   }
 
+  update_move() { // 进行移动的函数
+    this.cells[0].x += this.speed * this.timedelta / 1000;
+  }
+
   update() {
     this.render();
+    this.update_move();
   }
 
   render() {

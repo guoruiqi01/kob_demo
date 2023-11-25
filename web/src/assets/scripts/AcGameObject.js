@@ -30,7 +30,6 @@ export class AcGameObject {
   }
 }
 
-
 let last_timestamp; // 上一帧执行的时刻
 const step = (timestamp) => {
   for (let obj of AC_GAME_OBJECTS) {
@@ -44,6 +43,7 @@ const step = (timestamp) => {
       obj.update();
     }
   }
+  last_timestamp = timestamp
   requestAnimationFrame(step)
 }
 
