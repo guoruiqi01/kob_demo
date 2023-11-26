@@ -36,8 +36,6 @@ export class Snake extends AcGameObject {
     return false;
   }
 
-
-
   next_step() { // 蛇走下一步前的辅助函数，包括更改状态与方向
     const d = this.direction; // 目前direction的设置还没有编写
     this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
@@ -60,16 +58,15 @@ export class Snake extends AcGameObject {
     // 初始版可以理解为每一帧重新计算蛇头的位置，之后的render()里再画一遍
     // 这里的方法是两条蛇共有的
     // this.cells[0].x += this.speed * this.timedelta / 1000;
-    
     const dx = this.next_cell.x - this.cells[0].x; // 这是圆心的位置
     const dy = this.next_cell.y - this.cells[0].y;
-    const distance = Math.sqrt(dx * dx + dy * dy); // 这是代表蛇头位置到目标位置之间的欧氏距离
-
+    const distance = Math.sqrt(dx * dx + dy * dy); // 这是代表当前蛇头位置到目标位置之间的欧氏距离
     // 蛇尾更新操作时整个if分支是一体的
     if (distance < this.eps) {
       this.cells[0] = this.next_cell; // 将目标点作为新的蛇头
       this.next_cell = null;
       this.status = "idle"; // 当前次移动结束，等待下一次移动机会
+      // this.direction = -1;
 
       if (!this.check_tail_increasing()) {
         this.cells.pop();
@@ -81,6 +78,20 @@ export class Snake extends AcGameObject {
       this.cells[0].x += move_distance * dx / distance; // x 轴的增量
       this.cells[0].y += move_distance * dy / distance;
 
+
+      // if (this.id === 0) {
+      //   if (this.direction === 0) this.cells[0].y -= move_distance;
+      //   else if (this.direction === 1) this.cells[0].x += move_distance;
+      //   else if (this.direction === 2) this.cells[0].y += move_distance;
+      //   else if (this.direction === 3) this.cells[0].x -= move_distance;
+      // }
+      // if (this.id === 1) {
+      //   if (this.direction === 0) this.cells[0].y -= move_distance;
+      //   else if (this.direction === 1) this.cells[0].x += move_distance;
+      //   else if (this.direction === 2) this.cells[0].y += move_distance
+      //   else if (this.direction === 3) this.cells[0].x -= move_distance;
+      // }
+      
       // 这里是不变长蛇尾，蛇尾不变长就要向前移动
       if (!this.check_tail_increasing()) {
         const k = this.cells.length;
@@ -92,7 +103,6 @@ export class Snake extends AcGameObject {
         tail.y += move_distance * tail_dy / distance;
       }
     }
-    
   }
 
   update() {
