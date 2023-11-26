@@ -9,20 +9,97 @@ export class Snake extends AcGameObject {
     this.gamemap = gamemap;
 
     this.cells = [new Cell(info.r, info.c)]; // cells[0] 存放蛇的头
-    this.speed = 1; // 蛇每秒钟走的格子数
+    this.next_cell = null; // 下一步的目标位置
+
+    this.speed = 5; // 蛇每秒钟走的格子数
+    this.direction = -1;
+    this.status = "idle"; // "idle表示静止，等待输入进行下一步运动"
+
+    this.dr = [-1, 0, 1, 0]; // 在二维数组地图中rows上四个方向的偏移量
+    this.dc = [0, 1, 0, -1];
+
+    this.step = 0; // 记录走了多少步
+    this.eps = 1e-2;
   }
 
   start() {
 
   }
 
+  set_direction(d) {
+    this.direction = d;
+  }
+
+  check_tail_increasing() {
+    if (this.step <= 10) return true;
+    if (this.step % 3 === 1) return true;
+    return false;
+  }
+
+
+
+  next_step() { // 蛇走下一步前的辅助函数，包括更改状态与方向
+    const d = this.direction; // 目前direction的设置还没有编写
+    this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
+    this.direction = -1; // 在走了一步后清空操作
+    this.status = "move";
+    this.step ++;
+
+    const k = this.cells.length;
+    // 原cells的实际存储空间为[0,k-1]，这样是将从尾巴到头整体向后覆盖
+    // 就会比原来多出来一个头
+    // 每个元素都向后移动一位，相当于头部多出了一个原来头部的复制
+    for (let i = k; i > 0; i --) {
+      this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
+    }
+
+    // 目标让头结点朝目标移动
+  }
+
   update_move() { // 进行移动的函数
-    this.cells[0].x += this.speed * this.timedelta / 1000;
+    // 初始版可以理解为每一帧重新计算蛇头的位置，之后的render()里再画一遍
+    // 这里的方法是两条蛇共有的
+    // this.cells[0].x += this.speed * this.timedelta / 1000;
+    
+    const dx = this.next_cell.x - this.cells[0].x; // 这是圆心的位置
+    const dy = this.next_cell.y - this.cells[0].y;
+    const distance = Math.sqrt(dx * dx + dy * dy); // 这是代表蛇头位置到目标位置之间的欧氏距离
+
+    // 蛇尾更新操作时整个if分支是一体的
+    if (distance < this.eps) {
+      this.cells[0] = this.next_cell; // 将目标点作为新的蛇头
+      this.next_cell = null;
+      this.status = "idle"; // 当前次移动结束，等待下一次移动机会
+
+      if (!this.check_tail_increasing()) {
+        this.cells.pop();
+      }
+    } else {
+      const move_distance = this.speed * this.timedelta / 1000; // 每两帧之间走的距离是一个固定的值
+      // 这里相当于先计算要走的距离，然后分配到x轴和y轴
+      // 关注蛇头，一切的cells[0]
+      this.cells[0].x += move_distance * dx / distance; // x 轴的增量
+      this.cells[0].y += move_distance * dy / distance;
+
+      // 这里是不变长蛇尾，蛇尾不变长就要向前移动
+      if (!this.check_tail_increasing()) {
+        const k = this.cells.length;
+        const tail = this.cells[k - 1], tail_target = this.cells[k - 2];
+        const tail_dx = tail_target.x - tail.x;
+        const tail_dy = tail_target.y - tail.y;
+        // distance和上面是公用的
+        tail.x += move_distance * tail_dx / distance;
+        tail.y += move_distance * tail_dy / distance;
+      }
+    }
+    
   }
 
   update() {
+    if (this.status === 'move') {
+      this.update_move();
+    }
     this.render();
-    this.update_move();
   }
 
   render() {
@@ -37,3 +114,6 @@ export class Snake extends AcGameObject {
     }
   }
 }
+
+
+

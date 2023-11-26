@@ -19,6 +19,21 @@ export class GameMapObject extends AcGameObject {
     ]
   }
 
+  add_listening_events() {
+    this.ctx.canvas.focus();
+    const [snake0, snake1] = this.snakes;
+    this.ctx.canvas.addEventListener("keydown", e => {
+      if (e.key === 'w') snake0.set_direction(0);
+      else if (e.key === 'd') snake0.set_direction(1);
+      else if (e.key === 's') snake0.set_direction(2);
+      else if (e.key === 'a') snake0.set_direction(3);
+      else if (e.key === 'ArrowUp') snake1.set_direction(0);
+      else if (e.key === 'ArrowRight') snake1.set_direction(1);
+      else if (e.key === 'ArrowDown') snake1.set_direction(2);
+      else if (e.key === 'ArrowLeft') snake1.set_direction(3);
+    })
+  }
+
   check_connectivity(g, sx, sy, tx, ty) {
     if (sx == tx && sy == ty) return true;
     g[sx][sy] = true;
@@ -82,6 +97,7 @@ export class GameMapObject extends AcGameObject {
 
   start() {
     for (let i = 0; i < 10; i ++) if (this.create_walls()) break
+    this.add_listening_events();
   }
 
 
@@ -93,9 +109,26 @@ export class GameMapObject extends AcGameObject {
     this.ctx.canvas.height = this.L * this.rows;
   }
 
+  check_ready() {
+    for (const snake of this.snakes) {
+      if (snake.status !== "idle") return false;
+      if (snake.direction === -1) return false;
+    }
+    return true;
+  }
+
+  // 让两条蛇进行下一步操作，起到宏观判断
+  next_step() {
+    for (const snake of this.snakes) {
+      snake.next_step();
+    }
+  }
 
   update() {
     this.update_size();
+    if (this.check_ready()) {
+      this.next_step();
+    } 
     this.render();
   }
 
