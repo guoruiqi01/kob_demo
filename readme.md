@@ -1,1 +1,1 @@
-深入理解kob项目
+King of Bot AI platform
