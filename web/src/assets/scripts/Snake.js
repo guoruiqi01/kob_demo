@@ -39,7 +39,7 @@ export class Snake extends AcGameObject {
   next_step() { // 蛇走下一步前的辅助函数，包括更改状态与方向
     const d = this.direction; // 目前direction的设置还没有编写
     this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
-    this.direction = -1; // 在走了一步后清空操作
+    // this.direction = -1; // 在走了一步后清空操作
     this.status = "move";
     this.step ++;
 
@@ -50,8 +50,6 @@ export class Snake extends AcGameObject {
     for (let i = k; i > 0; i --) {
       this.cells[i] = JSON.parse(JSON.stringify(this.cells[i - 1]));
     }
-
-    // 目标让头结点朝目标移动
   }
 
   update_move() { // 进行移动的函数
@@ -78,7 +76,6 @@ export class Snake extends AcGameObject {
       this.cells[0].x += move_distance * dx / distance; // x 轴的增量
       this.cells[0].y += move_distance * dy / distance;
 
-
       // if (this.id === 0) {
       //   if (this.direction === 0) this.cells[0].y -= move_distance;
       //   else if (this.direction === 1) this.cells[0].x += move_distance;
@@ -92,7 +89,7 @@ export class Snake extends AcGameObject {
       //   else if (this.direction === 3) this.cells[0].x -= move_distance;
       // }
       
-      // 这里是不变长蛇尾，蛇尾不变长就要向前移动
+      // 这里是不变长蛇尾，蛇尾不变长就要向前移动，头是每一步都要向前伸
       if (!this.check_tail_increasing()) {
         const k = this.cells.length;
         const tail = this.cells[k - 1], tail_target = this.cells[k - 2];

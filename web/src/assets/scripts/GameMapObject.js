@@ -101,7 +101,6 @@ export class GameMapObject extends AcGameObject {
     this.add_listening_events();
   }
 
-
   update_size() {
     // 这里的 L 是浮点数，而画图时用的是整像素，因此会造成画墙时有墙缝
     // 这里觉得有没有缝影响不大，所以就不改了
@@ -116,7 +115,7 @@ export class GameMapObject extends AcGameObject {
       if (snake.direction === -1) return false;
     }
     return true;
-  }
+  } 
 
   // 让两条蛇进行下一步操作，起到宏观判断
   next_step() {
