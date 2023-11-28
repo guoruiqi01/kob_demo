@@ -23,7 +23,6 @@ export class GameMapObject extends AcGameObject {
     this.ctx.canvas.focus();
     const [snake0, snake1] = this.snakes;
     this.ctx.canvas.addEventListener("keydown", e => {
-      console.log(e.key)
       if (e.key === 'w') snake0.set_direction(0);
       else if (e.key === 'd') snake0.set_direction(1);
       else if (e.key === 's') snake0.set_direction(2);

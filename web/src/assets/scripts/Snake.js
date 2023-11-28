@@ -39,7 +39,7 @@ export class Snake extends AcGameObject {
   next_step() { // 蛇走下一步前的辅助函数，包括更改状态与方向
     const d = this.direction; // 目前direction的设置还没有编写
     this.next_cell = new Cell(this.cells[0].r + this.dr[d], this.cells[0].c + this.dc[d]);
-    // this.direction = -1; // 在走了一步后清空操作
+    this.direction = -1; // 在走了一步后清空操作
     this.status = "move";
     this.step ++;
 
@@ -118,6 +118,16 @@ export class Snake extends AcGameObject {
       ctx.beginPath();
       ctx.arc(cell.x * L, cell.y * L, L / 2, 0, Math.PI * 2);
       ctx.fill();
+    }
+
+    for (let i = 1; i < this.cells.length; i ++ ) {
+      const a = this.cells[i - 1], b = this.cells[i];
+
+      if (Math.abs(a.x - b.x)< this.eps) { // 蛇当前是纵方向的
+        ctx.fillRect((a.x - 0.5)* L, Math.min(a.y, b.y) * L, L, Math.abs(a.y - b.y) * L); // x维度、y维度
+      } else { // 当前蛇是横方向的
+        ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.5) * L, Math.abs(a.x - b.x) * L, L); // x维度、y维度
+      }
     }
   }
 }
