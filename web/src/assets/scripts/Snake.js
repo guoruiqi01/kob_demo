@@ -116,7 +116,7 @@ export class Snake extends AcGameObject {
     ctx.fillStyle = this.color;
     for (const cell of this.cells) {
       ctx.beginPath();
-      ctx.arc(cell.x * L, cell.y * L, L / 2, 0, Math.PI * 2);
+      ctx.arc(cell.x * L, cell.y * L, L / 2 * 0.8, 0, Math.PI * 2);
       ctx.fill();
     }
 
@@ -124,9 +124,9 @@ export class Snake extends AcGameObject {
       const a = this.cells[i - 1], b = this.cells[i];
 
       if (Math.abs(a.x - b.x)< this.eps) { // 蛇当前是纵方向的
-        ctx.fillRect((a.x - 0.5)* L, Math.min(a.y, b.y) * L, L, Math.abs(a.y - b.y) * L); // x维度、y维度
+        ctx.fillRect((a.x - 0.4)* L, Math.min(a.y, b.y) * L, L * 0.8, Math.abs(a.y - b.y) * L); // x维度、y维度
       } else { // 当前蛇是横方向的
-        ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.5) * L, Math.abs(a.x - b.x) * L, L); // x维度、y维度
+        ctx.fillRect(Math.min(a.x, b.x) * L, (a.y - 0.4) * L, Math.abs(a.x - b.x) * L, L * 0.8); // x维度、y维度
       }
     }
   }
