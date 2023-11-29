@@ -43,6 +43,10 @@ export class Snake extends AcGameObject {
     this.status = "move";
     this.step ++;
 
+    // 下一步操作窗墙/蛇，瞬间去世
+    if (!this.gamemap.check_valid(this.next_cell)) {
+      this.status = "die";
+    }
     const k = this.cells.length;
     // 原cells的实际存储空间为[0,k-1]，这样是将从尾巴到头整体向后覆盖
     // 就会比原来多出来一个头
@@ -112,6 +116,8 @@ export class Snake extends AcGameObject {
   render() {
     const ctx = this.gamemap.ctx;
     const L = this.gamemap.L;
+    
+    if (this.status === "die") this.color = "white";
 
     ctx.fillStyle = this.color;
     for (const cell of this.cells) {

@@ -114,7 +114,29 @@ export class GameMapObject extends AcGameObject {
       if (snake.direction === -1) return false;
     }
     return true;
-  } 
+  }
+
+  check_valid(cell) {
+    for (const wall of this.walls) {
+      if (cell.r === wall.r && cell.c === wall.c) {
+        return false;
+      }
+    }
+
+    for (const snake of this.snakes) {
+      // 判断是否会撞到对方或者自己的蛇身
+      let k = snake.cells.length;
+      if (!snake.check_tail_increasing()) {
+        k --;
+      }
+      for (let i = 0; i < k; i ++) {
+        if (cell.r === snake.cells[i].r && cell.c === snake.cells[i].c) {
+          return false;
+        }
+      }
+    }
+    return true;
+  }
 
   // 让两条蛇进行下一步操作，起到宏观判断
   next_step() {
