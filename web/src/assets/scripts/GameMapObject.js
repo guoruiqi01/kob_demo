@@ -122,7 +122,6 @@ export class GameMapObject extends AcGameObject {
         return false;
       }
     }
-
     for (const snake of this.snakes) {
       // 判断是否会撞到对方或者自己的蛇身
       let k = snake.cells.length;
