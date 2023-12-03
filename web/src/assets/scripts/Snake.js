@@ -24,6 +24,8 @@ export class Snake extends AcGameObject {
     this.eye_direction = 0;
     if (this.id === 1) this.eye_direction = 2;
 
+    // 这里无论哪个方向是一定要有偏移量的
+    // 每一维第一个数据为左眼偏移量、第二个数据为右眼偏移量
     this.eye_dx = [
       [-1, 1],
       [1, 1],
@@ -147,7 +149,6 @@ export class Snake extends AcGameObject {
 
     for (let i = 1; i < this.cells.length; i ++ ) {
       const a = this.cells[i - 1], b = this.cells[i];
-
       if (Math.abs(a.x - b.x)< this.eps) { // 蛇当前是纵方向的
         ctx.fillRect((a.x - 0.4)* L, Math.min(a.y, b.y) * L, L * 0.8, Math.abs(a.y - b.y) * L); // x维度、y维度
       } else { // 当前蛇是横方向的
@@ -156,7 +157,7 @@ export class Snake extends AcGameObject {
     }
 
     ctx.fillStyle = "black";
-    for (let i = 0; i < 2; i ++) {
+    for (let i = 0; i < 2; i ++) { // 每次都是先画左眼再画右眼
       const eye_x = (this.cells[0].x + this.eye_dx[this.eye_direction][i] * 0.15) * L ;
       const eye_y = (this.cells[0].y + this.eye_dy[this.eye_direction][i] * 0.15) * L ; 
       ctx.beginPath();
@@ -165,6 +166,3 @@ export class Snake extends AcGameObject {
     }
   }
 }
-
-
-

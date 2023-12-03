@@ -14,6 +14,7 @@ export default {
     let parent = ref(null);
     let canvas = ref(null);
 
+    // 主体仍然是div->canvas，但是用GameMapObject来控制其fillRect逻辑
     onMounted(() => {
       new GameMapObject(canvas.value.getContext("2d"), parent.value);
     });
