@@ -13,7 +13,7 @@ import java.util.Map;
 @Service
 public class InfoServiceImpl implements InfoService {
     @Override
-    public Map<String, String> getInfo() {
+    public Map<String, String> getInfo() { // 获取当前已认证用户的信息
         UsernamePasswordAuthenticationToken authentication =
                 (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();

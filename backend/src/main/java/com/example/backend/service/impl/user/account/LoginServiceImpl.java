@@ -17,16 +17,16 @@ import java.util.Map;
 public class LoginServiceImpl implements LoginService {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager; // Spring Security 提供的身份验证管理器
 
     @Override
     public Map<String, String> getToken(String username, String password) {
-        System.out.println("first");
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
-        Authentication authentication = authenticationManager.authenticate(authenticationToken);
-        UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal();
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(username, password); // authenticationToken身份验证令牌
+        Authentication authentication = authenticationManager.authenticate(authenticationToken); // 验证身份
+        UserDetailsImpl loginUser = (UserDetailsImpl) authentication.getPrincipal(); // 成功后从认证对象中获取“被代理人”
         User user = loginUser.getUser();
-        String jwt = JwtUtil.createJWT(user.getId().toString());
+        String jwt = JwtUtil.createJWT(user.getId().toString()); // jwt用于后续的身份验证
 
         Map<String, String> map = new HashMap<>();
         map.put("error_message", "success");
