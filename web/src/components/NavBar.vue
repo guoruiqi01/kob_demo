@@ -68,7 +68,9 @@
                 >
               </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">退出</a></li>
+              <li @click="logout">
+                <a class="dropdown-item" href="#">退出</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -101,12 +103,20 @@
 <script>
 import { useRoute } from "vue-router";
 import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
   setup() {
+    const store = useStore();
     const route = useRoute();
     let route_name = computed(() => route.name);
+
+    const logout = () => {
+      store.dispatch("logout");
+    };
+
     return {
       route_name,
+      logout,
     };
   },
 };

@@ -21,6 +21,12 @@ export default{
     },
     updateToken(state, token) {
       state.token = token;
+    },
+    logout(state) {
+      state.id = "",
+      state.username = "",
+      state.photo = "",
+      state.is_login = false;
     }
   },
   // 这里还是辅助函数
@@ -75,6 +81,9 @@ export default{
           data.error(resp);
         },
       });
+    },
+    logout(context) {
+      context.commit("logout");
     }
   },
   modules: {
