@@ -7,6 +7,7 @@ export default{
     photo: "",
     token: "",
     is_login: false,
+    show_content: false,
   },
   // 一般用不到
   getters: {
@@ -27,6 +28,9 @@ export default{
       state.username = "",
       state.photo = "",
       state.is_login = false;
+    },
+    updateShowContent(state, show_content) {
+      state.show_content = show_content;
     }
   },
   // 这里还是辅助函数
@@ -43,6 +47,7 @@ export default{
         // 如果登录反正出错，后端会直接报错，不再返回字典
         success(resp) {
           if (resp.error_message === "success") {
+            localStorage.setItem("jwt_token", resp.token); // 登录持久化操作
             context.commit("updateToken", resp.token);
             data.success();
           } else {
@@ -65,14 +70,14 @@ export default{
         // 如果通过token正确查询到用户
         // resp是后端返回的数据，字典验证信息为
         // {"error_message": "success", "id": "", "username": "", "photo": ""}
-        success(resp) {
+        success(resp) { // 这个success()是ajax的
           if (resp.error_message === "success") {
             context.commit("updateUser", {
               ...resp,
               is_login: true,
             });
             // 这里的data.success是组件在调用时编写的具体回调函数
-            data.success(resp);
+            data.success(resp); // 这个是调用时在{}内编写的
           } else {
             data.error(resp);
           }
@@ -83,6 +88,7 @@ export default{
       });
     },
     logout(context) {
+      localStorage.removeItem("jwt_token"); // 退出时将其删掉
       context.commit("logout");
     }
   },

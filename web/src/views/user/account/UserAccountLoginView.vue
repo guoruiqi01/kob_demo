@@ -1,5 +1,5 @@
 <template>
-  <ContentField>
+  <ContentField v-if="$store.state.user.show_content">
     <div class="row justify-content-md-center">
       <div class="col-3">
         <form @submit.prevent="login">
@@ -45,6 +45,23 @@ export default {
     let username = ref("");
     let password = ref("");
     let error_message = ref("");
+
+    // 每次重定向到登录页面时，进行jwt_token判断，如果localstorage里有值则利用值进行登录并进行跳转
+    const jwt_token = localStorage.getItem("jwt_token");
+    if (jwt_token) {
+      store.commit("updateToken", jwt_token);
+      store.dispatch("getinfo", {
+        success() {
+          router.push({ name: "home" });
+          store.commit("updateShowContent", false); // 登录验证成功，不展示了
+        },
+        error() {
+          store.commit("updateShowContent", true); // 其他情况一律修改变量，进行展示
+        },
+      });
+    } else {
+      store.commit("updateShowContent", true);
+    }
 
     const login = () => {
       error_message.value = "";
