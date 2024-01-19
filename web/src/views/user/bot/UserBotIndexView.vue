@@ -31,11 +31,30 @@ export default {
     //     console.log(resp);
     //   },
     // });
+    // $.ajax({
+    //   url: "http://localhost:3000/user/bot/remove/",
+    //   type: "post",
+    //   data: {
+    //     bot_id: 3,
+    //   },
+    //   headers: {
+    //     Authorization: "Bearer " + store.state.user.token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   },
+    // });
     $.ajax({
-      url: "http://localhost:3000/user/bot/remove/",
+      url: "http://localhost:3000/user/bot/update/",
       type: "post",
       data: {
-        bot_id: 3,
+        bot_id: 5,
+        title: "Bot的标题2",
+        content: "Bot的内容2",
+        description: "Bot的描述2",
       },
       headers: {
         Authorization: "Bearer " + store.state.user.token,
