@@ -13,13 +13,29 @@ export default {
   },
   setup() {
     const store = useStore();
+    // $.ajax({
+    //   url: "http://localhost:3000/user/bot/add/",
+    //   type: "post",
+    //   data: {
+    //     title: "Bot的标题",
+    //     content: "Bot的内容",
+    //     description: "Bot的描述",
+    //   },
+    //   headers: {
+    //     Authorization: "Bearer " + store.state.user.token,
+    //   },
+    //   success(resp) {
+    //     console.log(resp);
+    //   },
+    //   error(resp) {
+    //     console.log(resp);
+    //   },
+    // });
     $.ajax({
-      url: "http://localhost:3000/user/bot/add/",
+      url: "http://localhost:3000/user/bot/remove/",
       type: "post",
       data: {
-        title: "Bot的标题",
-        content: "Bot的内容",
-        description: "Bot的描述",
+        bot_id: 3,
       },
       headers: {
         Authorization: "Bearer " + store.state.user.token,
