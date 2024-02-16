@@ -69,13 +69,13 @@
                         <label for="add-bot-description" class="form-label"
                           >代码</label
                         >
-                        <textarea
-                          type="password"
-                          class="form-control"
-                          id="add-bot-description"
-                          placeholder="请输入Bot代码"
-                          rows="8"
-                          v-model="addbot.content"
+                        <VAceEditor
+                          v-model:value="addbot.content"
+                          @init="editorInit"
+                          lang="c_cpp"
+                          theme="textmate"
+                          style="height: 300px"
+                          :options="{ fontSize: 22 }"
                         />
                       </div>
                     </form>
@@ -179,13 +179,13 @@
                                   class="form-label"
                                   >代码</label
                                 >
-                                <textarea
-                                  type="password"
-                                  class="form-control"
-                                  id="add-bot-description"
-                                  placeholder="请输入Bot代码"
-                                  rows="8"
-                                  v-model="bot.content"
+                                <VAceEditor
+                                  v-model:value="bot.content"
+                                  @init="editorInit"
+                                  lang="c_cpp"
+                                  theme="textmate"
+                                  style="height: 300px"
+                                  :options="{ fontSize: 22 }"
                                 />
                               </div>
                             </form>
@@ -239,9 +239,20 @@ import $ from "jquery";
 import { useStore } from "vuex";
 import { ref, reactive } from "vue";
 import { Modal } from "bootstrap/dist/js/bootstrap";
+import { VAceEditor } from "vue3-ace-editor";
+import ace from "ace-builds";
 export default {
-  components: {},
+  components: {
+    VAceEditor,
+  },
   setup() {
+    ace.config.set(
+      "basePath",
+      "https://cdn.jsdelivr.net/npm/ace-builds@" +
+        require("ace-builds").version +
+        "/src-noconflict/"
+    );
+
     const store = useStore();
 
     let bots = ref([]);
