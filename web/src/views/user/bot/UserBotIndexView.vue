@@ -128,6 +128,7 @@
                       type="button"
                       class="btn btn-danger"
                       style="width: 100px"
+                      @click="remove_bot(bot)"
                     >
                       删除
                     </button>
@@ -201,48 +202,33 @@ export default {
       });
     };
 
+    const remove_bot = (bot) => {
+      $.ajax({
+        url: "http://localhost:3000/user/bot/remove/",
+        type: "post",
+        data: {
+          bot_id: bot.id,
+        },
+        headers: {
+          Authorization: "Bearer " + store.state.user.token,
+        },
+        success(resp) {
+          if (resp.error_message === "success") {
+            refresh_bots();
+          }
+        },
+      });
+    };
+
     refresh_bots();
 
     return {
       bots,
       addbot,
       add_bot,
+      remove_bot,
     };
 
-    // $.ajax({
-    //   url: "http://localhost:3000/user/bot/add/",
-    //   type: "post",
-    //   data: {
-    //     title: "Bot的标题",
-    //     content: "Bot的内容",
-    //     description: "Bot的描述",
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   },
-    // });
-    // $.ajax({
-    //   url: "http://localhost:3000/user/bot/remove/",
-    //   type: "post",
-    //   data: {
-    //     bot_id: 3,
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   },
-    // });
     // $.ajax({
     //   url: "http://localhost:3000/user/bot/update/",
     //   type: "post",
