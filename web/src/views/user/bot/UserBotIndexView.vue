@@ -121,9 +121,100 @@
                       type="button"
                       class="btn btn-secondary"
                       style="width: 100px; margin-right: 50px"
+                      data-bs-toggle="modal"
+                      :data-bs-target="'#update-bot-btn-' + bot.id"
                     >
                       修改
                     </button>
+                    <!-- Modal -->
+                    <div
+                      class="modal fade"
+                      :id="'update-bot-btn-' + bot.id"
+                      tabindex="-1"
+                    >
+                      <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5">创建Bot</h1>
+                            <button
+                              type="button"
+                              class="btn-close"
+                              data-bs-dismiss="modal"
+                              aria-label="Close"
+                            ></button>
+                          </div>
+                          <div class="modal-body">
+                            <form>
+                              <div class="mb-3">
+                                <label for="add-bot-title" class="form-label"
+                                  >名称</label
+                                >
+                                <input
+                                  type="text"
+                                  class="form-control"
+                                  id="exampleInputEmail1"
+                                  aria-describedby="emailHelp"
+                                  placeholder="请输入Bot名称"
+                                  v-model="bot.title"
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label
+                                  for="add-bot-description"
+                                  class="form-label"
+                                  >简介</label
+                                >
+                                <textarea
+                                  type="password"
+                                  class="form-control"
+                                  id="add-bot-description"
+                                  placeholder="请输入Bot简介"
+                                  rows="3"
+                                  v-model="bot.description"
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label
+                                  for="add-bot-description"
+                                  class="form-label"
+                                  >代码</label
+                                >
+                                <textarea
+                                  type="password"
+                                  class="form-control"
+                                  id="add-bot-description"
+                                  placeholder="请输入Bot代码"
+                                  rows="8"
+                                  v-model="bot.content"
+                                />
+                              </div>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <div class="error-message">
+                              {{ bot.error_message }}
+                            </div>
+                            <button
+                              @click="update_bot(bot)"
+                              type="button"
+                              class="btn btn-primary"
+                              style="width: 100px"
+                            >
+                              保存修改
+                            </button>
+                            <button
+                              type="button"
+                              class="btn btn-secondary"
+                              data-bs-dismiss="modal"
+                              style="width: 100px"
+                              @click="recover_bot(bot)"
+                            >
+                              取消
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                     <button
                       type="button"
                       class="btn btn-danger"
@@ -156,6 +247,12 @@ export default {
     let bots = ref([]);
 
     const addbot = reactive({
+      title: "",
+      description: "",
+      content: "",
+      error_message: "",
+    });
+    let tmpbot = reactive({
       title: "",
       description: "",
       content: "",
@@ -220,6 +317,34 @@ export default {
       });
     };
 
+    const update_bot = (bot) => {
+      $.ajax({
+        url: "http://localhost:3000/user/bot/update/",
+        type: "post",
+        data: {
+          bot_id: bot.id,
+          title: bot.title,
+          description: bot.description,
+          content: bot.content,
+        },
+        headers: {
+          Authorization: "Bearer " + store.state.user.token,
+        },
+        success(resp) {
+          if (resp.error_message === "success") {
+            Modal.getInstance("#update-bot-btn-" + bot.id).hide();
+            refresh_bots();
+          } else {
+            bot.error_message = resp.error_message;
+          }
+        },
+      });
+    };
+
+    const recover_bot = () => {
+      refresh_bots();
+    };
+
     refresh_bots();
 
     return {
@@ -227,40 +352,10 @@ export default {
       addbot,
       add_bot,
       remove_bot,
+      update_bot,
+      recover_bot,
+      tmpbot,
     };
-
-    // $.ajax({
-    //   url: "http://localhost:3000/user/bot/update/",
-    //   type: "post",
-    //   data: {
-    //     bot_id: 5,
-    //     title: "Bot的标题2",
-    //     content: "Bot的内容2",
-    //     description: "Bot的描述2",
-    //   },
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   },
-    // });
-    // $.ajax({
-    //   url: "http://localhost:3000/user/bot/getlist/",
-    //   type: "get",
-    //   headers: {
-    //     Authorization: "Bearer " + store.state.user.token,
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   },
-    // });
   },
 };
 </script>
