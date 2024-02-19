@@ -40,11 +40,15 @@ export default {
             username: data.opponent_username,
             photo: data.opponent_photo,
           });
+          setTimeout(() => {
+            store.commit("updateStatus", "playing");
+          }, 2000);
         }
       };
 
       socket.onclose = () => {
         console.log("disconnected!");
+        store.commit("updateStatus", "matching");
       };
     });
 
