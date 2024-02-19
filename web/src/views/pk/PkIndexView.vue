@@ -15,7 +15,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    const socketUrl = `ws://localhost:3000/websocket/${store.state.token}/`;
+    const socketUrl = `ws://localhost:3000/websocket/${store.state.user.token}/`;
 
     let socket = null;
     onMounted(() => {
@@ -29,11 +29,18 @@ export default {
 
       socket.onopen = () => {
         console.log("connected!");
+        store.commit("updateSocket", socket);
       };
 
       socket.onmessage = (msg) => {
         const data = JSON.parse(msg.data);
-        console.log(data);
+        if (data.event === "start-matching") {
+          // 匹配成功
+          store.commit("updateOpponent", {
+            username: data.opponent_username,
+            photo: data.opponent_photo,
+          });
+        }
       };
 
       socket.onclose = () => {
