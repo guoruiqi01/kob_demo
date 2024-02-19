@@ -1,5 +1,6 @@
 package com.example.backend.consumer;
 
+import com.example.backend.consumer.utils.JwtAuthentication;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,20 +28,24 @@ public class WebSocketServer {
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("token") String token) {
+    public void onOpen(Session session, @PathParam("token") String token) throws IOException {
         // 建立连接
         this.session = session;
         System.out.println("connected!");
-        Integer userId = Integer.parseInt(token);
+        Integer userId = JwtAuthentication.getUserId(token);
         this.user = userMapper.selectById(userId);
-        users.put(userId, this);
+        if (user != null) {
+            users.put(userId, this);
+        } else {
+            this.session.close();
+        }
     }
 
     @OnClose
     public void onClose() {
         // 关闭链接
         System.out.println("disconnected!");
-        if (this.users != null) {
+        if (this.user != null) {
             users.remove(this.user.getId());
         }
     }
