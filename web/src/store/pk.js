@@ -4,6 +4,7 @@ export default{
     socket: null,
     opponent_username: "",
     opponent_photo: "",
+    gamemap: null,
   },
   // 一般用不到
   getters: {
@@ -19,6 +20,9 @@ export default{
     },
     updateStatus(state, status) {
       state.status = status;
+    },
+    updateGamemap(state, gamemap) {
+      state.gamemap = gamemap;
     }
   },
   // 这里还是辅助函数

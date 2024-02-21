@@ -1,6 +1,7 @@
 package com.example.backend.consumer;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.example.backend.consumer.utils.Game;
 import com.example.backend.consumer.utils.JwtAuthentication;
 import com.example.backend.mapper.UserMapper;
 import com.example.backend.pojo.User;
@@ -67,16 +68,21 @@ public class WebSocketServer {
             matchpool.remove(a);
             matchpool.remove(b);
 
+            Game game = new Game(13, 14, 20);
+            game.createMap();
+
             JSONObject respA = new JSONObject(); // 返回给玩家一的消息，用a的连接发送b的消息
             respA.put("event", "start-matching");
             respA.put("opponent_username", b.getUsername());
             respA.put("opponent_photo", b.getPhoto());
+            respA.put("gamemap", game.getG());
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
             JSONObject respB = new JSONObject(); // 用b的连接发送a的消息
             respB.put("event", "start-matching");
             respB.put("opponent_username", a.getUsername());
             respB.put("opponent_photo", a.getPhoto());
+            respB.put("gamemap", game.getG());
             users.get(b.getId()).sendMessage(respB.toJSONString());
         }
     }
