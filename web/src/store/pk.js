@@ -11,6 +11,7 @@ export default{
     b_id: 0,
     b_sx: 0,
     b_sy: 0,
+    gameObject: null,
   },
   // 一般用不到
   getters: {
@@ -35,6 +36,9 @@ export default{
       state.b_id = game.b_id;
       state.b_sx = game.b_sx;
       state.b_sy = game.b_sy;
+    },
+    updateGameObject(state, gameObject) {
+      state.gameObject = gameObject;
     }
   },
   // 这里还是辅助函数

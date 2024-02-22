@@ -20,12 +20,13 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/websocket/{token}")  // 注意不要以'/'结尾
 public class WebSocketServer {
 
-    final private static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
+    public final static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     final private static CopyOnWriteArraySet<User> matchpool = new CopyOnWriteArraySet<>();
-    private User user; // 用户信息存储在每个session里
+    private  User user; // 用户信息存储在每个session里
     private Session session = null;
 
     private static UserMapper userMapper;
+    private Game game = null;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -71,6 +72,12 @@ public class WebSocketServer {
             Game game = new Game(13, 14, 20, a.getId(), b.getId());
             game.createMap();
 
+            // 这里的game是a和b两名玩家的game，需要把game分给a和b两名玩家对应的连接
+            users.get(a.getId()).game = game;
+            users.get(b.getId()).game = game;
+
+            game.start();
+
             JSONObject respGame = new JSONObject(); // 存储地图的整体信息
             respGame.put("a_id", game.getPlayerA().getId());
             respGame.put("a_sx", game.getPlayerA().getSx());
@@ -101,6 +108,14 @@ public class WebSocketServer {
         matchpool.remove(this.user);
     }
 
+    private void move(int direction) {
+        if (game.getPlayerA().getId().equals(user.getId())) { // 判断当前连接是玩家A还是B
+            game.setNextStepA(direction);
+        } else if (game.getPlayerB().getId().equals(user.getId())) {
+            game.setNextStepB(direction);
+        }
+    }
+
 
     @OnMessage
     public void onMessage(String message, Session session) {
@@ -112,6 +127,8 @@ public class WebSocketServer {
             startMatching();
         } else if ("stop-matching".equals(event)){
             stopMatching();
+        } else if ("move".equals(event)) {
+            move(data.getInteger("direction"));
         }
     }
 
