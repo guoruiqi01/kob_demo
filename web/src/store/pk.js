@@ -12,12 +12,16 @@ export default{
     b_sx: 0,
     b_sy: 0,
     gameObject: null,
+    loser: "none", // none, all, A, B
   },
   // 一般用不到
   getters: {
   },
   // 用来修改数据（辅助函数）
   mutations: {
+    updateLoser(state, loser) {
+      state.loser = loser;
+    },
     updateSocket(state, socket) {
       state.socket = socket;
     },
