@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.example.backend.consumer.WebSocketServer;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.concurrent.locks.ReentrantLock;
@@ -160,8 +161,43 @@ public class Game extends Thread {
         sendAllMessage(resp.toJSONString());
     }
 
-    private void judge() { // 判断两名玩家下一步操作是否合法
+    private boolean check_valid(List<Cell> cellsA, List<Cell> cellsB) {
+        int n = cellsA.size();
+        Cell cell = cellsA.get(n - 1);
+        if (g[cell.x][cell.y] == 1) return false; // 检查A的最后一位是否撞墙
 
+        for (int i = 0; i < n - 1; i ++) { // 检查A的最后一位是否撞到自己的身体
+            if (cellsA.get(i).x == cell.x && cellsA.get(i).y == cell.y) {
+                return false;
+            }
+        }
+
+        for (int i = 0; i < n - 1; i ++) {
+            if (cellsB.get(i).x == cell.x && cellsB.get(i).y == cell.y) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void judge() { // 判断两名玩家下一步操作是否合法
+        List<Cell> cellsA = playerA.getCells();
+        List<Cell> cellsB = playerB.getCells();
+
+        boolean validA = check_valid(cellsA, cellsB);
+        boolean validB = check_valid(cellsB, cellsA);
+
+        if (!validA || !validB) {
+            status = "finished";
+
+            if (!validA && !validB) {
+                loser = "all";
+            } else if (!validA) {
+                loser = "A";
+            } else {
+                loser = "B";
+            }
+        }
     }
 
     private void sendMove() { // 向两个client传递移动信息
