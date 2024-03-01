@@ -38,4 +38,14 @@ public class Player {
         }
         return res;
     }
+
+    // 将steps转化成String
+    public String getStepsString() {
+        StringBuilder res = new StringBuilder();
+
+        for (int d : steps) {
+            res.append(d);
+        }
+        return res.toString();
+    }
 }
