@@ -10,6 +10,7 @@
     <modules>
         <module>matchingsystem</module>
         <module>backend</module>
+        <module>botrunningsystem</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -58,7 +59,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.demo.backendcloud.BackendcloudApplication</mainClass>
+                    <mainClass>com.example.backendcloud.BackendcloudApplication</mainClass>
                     <skip>true</skip>
                 </configuration>
                 <executions>

@@ -1,6 +1,6 @@
-package com.demo.matchingsystem;
+package com.example.matchingsystem;
 
-import com.demo.matchingsystem.service.impl.MatchingServiceImpl;
+import com.example.matchingsystem.service.impl.MatchingServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

@@ -1,4 +1,4 @@
-package com.demo.matchingsystem.config;
+package com.example.matchingsystem.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

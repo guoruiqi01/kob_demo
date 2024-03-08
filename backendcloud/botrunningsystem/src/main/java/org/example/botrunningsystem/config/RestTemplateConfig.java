@@ -1,4 +1,4 @@
-package com.demo.matchingsystem.config;
+package org.example.botrunningsystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
