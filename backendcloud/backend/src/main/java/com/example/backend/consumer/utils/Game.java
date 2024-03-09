@@ -46,7 +46,7 @@ public class Game extends Thread {
             botIdA = botA.getId();
             botCodeA = botA.getContent();
         }
-        if (botA != null) {
+        if (botB != null) {
             botIdB = botB.getId();
             botCodeB = botB.getContent();
         }
@@ -181,7 +181,6 @@ public class Game extends Thread {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         sendBotCode(playerA);
         sendBotCode(playerB);
 

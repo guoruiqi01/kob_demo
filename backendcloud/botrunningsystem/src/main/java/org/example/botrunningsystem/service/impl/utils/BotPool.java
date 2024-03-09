@@ -21,6 +21,7 @@ public class BotPool extends Thread {
     }
 
     private void consume(Bot bot) { // 编译执行一段代码，比较耗时
+        // 再人机对战的时候，机器没有进行执行代码的操作
         Consumer consumer = new Consumer();
         consumer.startTimeout(2000, bot);
     }
