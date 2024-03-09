@@ -150,7 +150,7 @@ public class Game extends Thread {
 
     private String getInput(Player player) {
         Player me, you;
-        if (player.getId().equals(player.getId())) {
+        if (playerA.getId().equals(player.getId())) {
             me = playerA;
             you = playerB;
         } else {
@@ -162,7 +162,7 @@ public class Game extends Thread {
                 me.getSy() + "#(" +
                 me.getStepsString() + ")#" +
                 you.getSx() + "#" +
-                you.getSy() + "#" +
+                you.getSy() + "#(" +
                 you.getStepsString() + ")#";
     }
 
