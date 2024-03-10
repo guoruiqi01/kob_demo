@@ -30,7 +30,7 @@ public class WebSocketServer {
     private  User user; // 用户信息存储在每个session里
     private Session session = null;
 
-    private static UserMapper userMapper;
+    public static UserMapper userMapper;
     public static RecordMapper recordMapper;
     private static BotMapper botMapper;
     public static RestTemplate restTemplate;
