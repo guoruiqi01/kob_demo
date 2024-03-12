@@ -1,5 +1,7 @@
 package com.example.backend.service.impl.user.account;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.example.backend.pojo.User;
 import com.example.backend.service.impl.utils.UserDetailsImpl;
 import com.example.backend.service.user.account.LoginService;
