@@ -1,6 +1,6 @@
 <template>
   <ContentField>
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover" style="text-align: center">
       <thead>
         <tr>
           <th>A</th>
@@ -29,6 +29,7 @@
               type="button"
               class="btn btn-secondary"
               style="width: 100px; margin-right: 50px"
+              @click="open_record_content(record.record.id)"
             >
               查看录像
             </button>
@@ -44,6 +45,7 @@ import ContentField from "@/components/ContentField";
 import { useStore } from "vuex";
 import $ from "jquery";
 import { ref } from "vue";
+import router from "../../router/index";
 
 export default {
   components: {
@@ -78,8 +80,52 @@ export default {
 
     pull_page(current_page);
 
+    const stringTo2D = (map) => {
+      // 将字符串转换为二维数组
+      let g = [];
+      for (let i = 0, k = 0; i < 13; i++) {
+        let line = [];
+        for (let j = 0; j < 14; j++, k++) {
+          if (map[k] === "0") line.push(0);
+          else line.push(1);
+        }
+        g.push(line);
+      }
+      return g;
+    };
+
+    const open_record_content = (recordId) => {
+      for (const record of records.value) {
+        if (record.record.id === recordId) {
+          store.commit("updateIsRecord", true); // 打开录像页面之前先将其标记为录像页面
+          store.commit("updateGame", {
+            map: stringTo2D(record.record.map),
+            a_id: record.record.aid,
+            a_sx: record.record.asx,
+            a_sy: record.record.asy,
+            b_id: record.record.bid,
+            b_sx: record.record.bsx,
+            b_sy: record.record.bsy,
+          });
+          store.commit("updateSteps", {
+            a_steps: record.record.asteps,
+            b_steps: record.record.bsteps,
+          });
+          store.commit("updateRecordLoser", record.record.loser);
+          router.push({
+            name: "record_content",
+            params: {
+              recordId: recordId,
+            },
+          });
+          break;
+        }
+      }
+    };
+
     return {
       records,
+      open_record_content,
     };
   },
 };

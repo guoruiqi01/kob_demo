@@ -21,26 +21,49 @@ export class GameMapObject extends AcGameObject {
   }
 
   add_listening_events() {
-    this.ctx.canvas.focus();
-    this.ctx.canvas.addEventListener("keydown", e => {
-      let d = -1;
-      if (e.key === 'w') d = 0;
-      else if (e.key === 'd') d = 1;
-      else if (e.key === 's') d = 2;
-      else if (e.key === 'a') d = 3;
+    if (this.store.state.record.is_record) { // 进行录像回放
+      let k = 0; // 记录执行到第几步操作了
+      const interval_id = setInterval(() => { // 存储id用于取消
+        const a_steps = this.store.state.record.a_steps;
+        const b_steps = this.store.state.record.b_steps;
+        const [snake0, snake1] = this.snakes;
+        const loser = this.store.state.record.record_loser;
 
-      if (d >= 0) {
-        this.store.state.pk.socket.send(JSON.stringify({
-          event: "move",
-          direction: d, 
-        }))
-      }
-    })
+        if (k >= a_steps.length - 1) { // 最后一步不算，不复现，直接die
+          if (loser === "all" || loser === "A") {
+            snake0.status = "die";
+          }
+          if (loser === "all" || loser === "B") {
+            snake1.status = "die";
+          }
+          clearInterval(interval_id);
+        } else {
+          snake0.set_direction(parseInt(a_steps[k]));
+          snake1.set_direction(parseInt(b_steps[k]));
+        }
+        k ++;
+      }, 300);
+    } else {
+      this.ctx.canvas.focus();
+      this.ctx.canvas.addEventListener("keydown", e => {
+        let d = -1;
+        if (e.key === 'w') d = 0;
+        else if (e.key === 'd') d = 1;
+        else if (e.key === 's') d = 2;
+        else if (e.key === 'a') d = 3;
+  
+        if (d >= 0) {
+          this.store.state.pk.socket.send(JSON.stringify({
+            event: "move",
+            direction: d, 
+          }))
+        }
+      })
+    }
   }
 
   create_walls() {
     const g = this.store.state.pk.gamemap;
-
     for (let r = 0; r < this.rows; r ++) {
       for (let c = 0; c < this.cols; c ++) {
         if (g[r][c]) this.walls.push(new Wall(r, c, this))

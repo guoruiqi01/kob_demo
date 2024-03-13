@@ -20,6 +20,7 @@ export default {
     const store = useStore();
     const socketUrl = `ws://localhost:3000/websocket/${store.state.user.token}/`;
     store.commit("updateLoser", "none");
+    store.commit("updateIsRecord", false); // 当我们打开PK页面时，此状态为false，默认也是false
 
     let socket = null;
     onMounted(() => {
