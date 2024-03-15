@@ -28,7 +28,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              style="width: 100px; margin-right: 50px"
+              style="width: 100px"
               @click="open_record_content(record.record.id)"
             >
               查看录像
