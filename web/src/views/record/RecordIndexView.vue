@@ -114,7 +114,6 @@ export default {
           records.value = resp.records;
           total_records = resp.records_count;
           update_pages();
-          console.log(pages);
         },
         error(resp) {
           console.log(resp);
