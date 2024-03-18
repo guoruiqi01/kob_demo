@@ -36,7 +36,7 @@ export default {
   },
   setup() {
     const store = useStore();
-    const socketUrl = `ws://localhost:3000/websocket/${store.state.user.token}/`;
+    const socketUrl = `wss://app2580.acapp.acwing.com.cn/websocket/${store.state.user.token}/`;
     store.commit("updateLoser", "none");
     store.commit("updateIsRecord", false); // 当我们打开PK页面时，此状态为false，默认也是false
 
