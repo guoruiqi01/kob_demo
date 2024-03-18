@@ -272,7 +272,7 @@ export default {
 
     const refresh_bots = () => {
       $.ajax({
-        url: "http://localhost:3000/user/bot/getlist/",
+        url: "http://localhost:3000/api/user/bot/getlist/",
         type: "get",
         headers: {
           Authorization: "Bearer " + store.state.user.token,
@@ -286,7 +286,7 @@ export default {
     const add_bot = () => {
       addbot.error_message = "";
       $.ajax({
-        url: "http://localhost:3000/user/bot/add/",
+        url: "http://localhost:3000/api/user/bot/add/",
         type: "post",
         data: {
           title: addbot.title,
@@ -312,7 +312,7 @@ export default {
 
     const remove_bot = (bot) => {
       $.ajax({
-        url: "http://localhost:3000/user/bot/remove/",
+        url: "http://localhost:3000/api/user/bot/remove/",
         type: "post",
         data: {
           bot_id: bot.id,
@@ -330,7 +330,7 @@ export default {
 
     const update_bot = (bot) => {
       $.ajax({
-        url: "http://localhost:3000/user/bot/update/",
+        url: "http://localhost:3000/api/user/bot/update/",
         type: "post",
         data: {
           bot_id: bot.id,

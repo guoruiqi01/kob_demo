@@ -14,22 +14,6 @@ export default {
     NavBar,
   },
   setup() {
-
-    // $.ajax({
-    //   url: "http://localhost:3000/user/account/register/",
-    //   type: "post",
-    //   data: {
-    //     username: "gg",
-    //     password: "pgg",
-    //     confirmedPassword: "pgg",
-    //   },
-    //   success(resp) {
-    //     console.log(resp);
-    //   },
-    //   error(resp) {
-    //     console.log(resp);
-    //   },
-    // });
   },
 };
 </script>
