@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.utils;
+package com.example.botrunningsystem.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;

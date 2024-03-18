@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.example.botrunningsystem</groupId>
+    <groupId>com.demo.botrunningsystem</groupId>
     <artifactId>botrunningsystem</artifactId>
 
     <properties>

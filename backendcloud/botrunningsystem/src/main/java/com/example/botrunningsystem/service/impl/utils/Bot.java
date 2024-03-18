@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.service.impl.utils;
+package com.example.botrunningsystem.service.impl.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

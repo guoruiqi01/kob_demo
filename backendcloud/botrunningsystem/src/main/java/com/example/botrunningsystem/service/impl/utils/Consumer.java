@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.service.impl.utils;
+package com.example.botrunningsystem.service.impl.utils;
 
 import org.joor.Reflect;
 import org.springframework.beans.factory.annotation.Autowired;

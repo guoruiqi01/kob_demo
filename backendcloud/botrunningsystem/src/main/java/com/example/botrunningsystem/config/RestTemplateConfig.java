@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.config;
+package com.example.botrunningsystem.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

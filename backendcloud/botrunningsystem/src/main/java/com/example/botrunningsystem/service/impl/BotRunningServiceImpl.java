@@ -1,7 +1,7 @@
-package org.example.botrunningsystem.service.impl;
+package com.example.botrunningsystem.service.impl;
 
-import org.example.botrunningsystem.service.BotRunningService;
-import org.example.botrunningsystem.service.impl.utils.BotPool;
+import com.example.botrunningsystem.service.BotRunningService;
+import com.example.botrunningsystem.service.impl.utils.BotPool;
 import org.springframework.stereotype.Service;
 
 @Service

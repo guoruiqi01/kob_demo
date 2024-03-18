@@ -1,6 +1,6 @@
-package org.example.botrunningsystem.controller;
+package com.example.botrunningsystem.controller;
 
-import org.example.botrunningsystem.service.BotRunningService;
+import com.example.botrunningsystem.service.BotRunningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;

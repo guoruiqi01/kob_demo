@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.utils;
+package com.example.botrunningsystem.utils;
 
 public interface BotInterface {
     Integer nextMove(String input);

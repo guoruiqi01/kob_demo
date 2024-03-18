@@ -1,6 +1,6 @@
-package org.example.botrunningsystem;
+package com.example.botrunningsystem;
 
-import org.example.botrunningsystem.service.impl.BotRunningServiceImpl;
+import com.example.botrunningsystem.service.impl.BotRunningServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

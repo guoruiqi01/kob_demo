@@ -1,4 +1,4 @@
-package org.example.botrunningsystem.service;
+package com.example.botrunningsystem.service;
 
 public interface BotRunningService {
     String addBot(Integer userId, String botCode, String input);
